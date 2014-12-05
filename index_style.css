@@ -1,0 +1,13 @@
+body {
+    background-color: #f7f7f7;
+}
+
+#title {
+	font-size: 56px;
+	font-family: "Roboto";
+}
+
+#subtitle {
+	font-size: 24px;
+	font-family: "Roboto";
+}
