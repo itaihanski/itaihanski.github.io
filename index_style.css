@@ -7,6 +7,13 @@ body {
 	top: -120px;
 }
 
+.links {
+	position: relative;
+	top: -120px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
 #title {
 	font-size: 56px;
 	font-family: "Roboto";
