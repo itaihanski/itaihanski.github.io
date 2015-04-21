@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>MVVM</title>
+
+		<meta name="description" content="Introduction to MVVM in Android">
+		<meta name="author" content="Itai Hanski">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/style.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2>Introduction to MVVM</h2>
+					<h3>In Android</h3>
+				</section>
+
+				<section>
+					<br/>
+					<br/>
+					<h2>Itai Hanski</h2>
+					<h4>Android Dev & Entrepreneur</h4>
+					<p class="fragment">
+						web: <a href="http://itaihanski.com">itaihanski.com</a>
+					</br>
+						github: <a href="http://github.com/itaihanski">itaihanski</a>
+					</p>
+				</section>
+
+				<section>
+					<h2>What's on the Menu?</h2>
+					<p>MVVM Overview</p>
+					<p>Case Study</p>
+					<p>Summary</p>
+				</section>
+
+				<section data-background="#893010">
+					<section>
+						<h2>Android Development Can Be Tricky</h2>
+					</section>
+
+					<section>
+						<h4>Problem</h4>
+						<h2>Huge Activities / Fragments</h2>
+					</section>
+
+					<section>
+						<h4>Problem</h4>
+						<h2>Super specific custom code</h2>
+					</section>
+
+					<section>
+						<h4>Problem</h4>
+						<h2>Changes can be a disaster</h2>
+					</section>
+
+					<section>
+						<h4>Problem</h4>
+						<h2>Hard to maintain</h2>
+					</section>
+				</section>
+
+				<section data-background="#75a39a">
+					<h1>MVVM</h1>
+					<p class="fragment">(hey, it's a palindrome too)</p>
+				</section>
+
+				<section data-background="#75a39a">
+					<br/><br/>
+					<h3>Model &bull; View &bull; ViewModel</h3>
+					<p class="fragment">Data &bull; Presentation &bull; Behavior</p>
+				</section>
+
+				<section data-background="#3b293f">
+					<h4>Our case study</h4>
+					<img class="fragment" src="image/turns.png"/>
+					<div>
+						<img class="fragment" width="200px" height="200px" src="image/t1.gif"/>
+						<img class="fragment" width="200px" height="200px" src="image/t2.gif"/>
+						<img class="fragment" width="200px" height="200px" src="image/t3.gif"/>
+					</div>
+				</section>
+
+				<section data-background="#6b4a72">
+					<section>
+						<br/><br/>
+						<h3>ViewModel: Behavior Layer</h3>
+						<p class="fragment">Interaction Handling</p>
+						<p class="fragment">Validation</p>
+						<p class="fragment">State</p>
+						<p class="fragment">Data Transformations</p>
+					</section>
+
+					<section>
+						<h4>Example: Main ViewModel</h4>
+						<pre style="font-size: 0.45em"><code class="java" data-trim contenteditable>
+public class MainViewModel {
+  public MainViewModel() {
+    mModel = Session.getInstance().getMainModel();
+    mModel.addListener(mListener); // listener is strong referenced
+    if (mModel.isLoaded()) {
+      refresh();
+    } else {
+      mModel.load();
+    }
+  }
+
+  public Item[] getItems() {
+    return mItems;
+  }
+
+  public void handleItemSelected(int position) {
+    if (mModel.isLoaded()) {
+      mPresenter.showBalanceView(mItems[position].getId());
+    } else {
+      mPendingSelectedId = mItems[position].getId();
+      mState = State.SELECTION_PENDING;
+    }
+  }
+
+  private void refresh() {
+    for (String balanceId : balanceIds) {
+      // create an Item from balance ID
+    }
+    mPresenter.refresh();
+  }
+}
+						</code></pre>
+					</section>
+				</section>
+
+				<section data-background="#6b4a72">
+					<section>
+						<br/><br/>
+						<h3>View: Presentation Layer</h3>
+						<p class="fragment">"Android Code"</p>
+						<p class="fragment">Interactions</p>
+						<p class="fragment">Data Updates</p>
+					</section>
+
+					<section>
+						<h4>Example</h4>
+						<h3>Main Activity and Fragment</h3>
+						<img width="253px" height="427px" src="image/main.png"/>
+					</section>
+
+					<section>
+						<h4>Example: Main Fragment</h4>
+						<pre style="font-size: 0.45em"><code class="java" data-trim contenteditable>
+public class MainFragment extends BaseFragment implements MainViewModel.Presenter {
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    Bundle savedInstanceState) {
+
+    final ListView listView = (ListView) rootView.findViewById(R.id.list_view);
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(final AdapterView&lt;?> parent, final View view,
+        final int position, long id) {
+        mViewModel.handleItemSelected(position - listView.getHeaderViewsCount());
+      }
+    });
+  }
+
+
+  @Override
+  public void showBalanceView(String balanceId) { ... }
+
+  // ... show other screens
+
+  @Override
+  public void refresh() {
+    mMainAdapter.setItems(mViewModel.getItems());
+    mMainAdapter.notifyDataSetChanged();
+  }
+}
+						</code></pre>
+					</section>
+
+				</section>
+
+				<section  data-background="#6b4a72">
+					<section>
+						<br/><br/>
+						<h3>Model: Data Layer</h3>
+						<p class="fragment">Entities</p>
+						<p class="fragment">Persistence</p>
+						<p class="fragment">Networking</p>
+					</section>
+
+					<section>
+						<h4>Example: Base Model</h4>
+						<pre style="font-size: 0.45em"><code class="java" data-trim contenteditable>
+
+public class BaseModel {
+  private Set&lt;Listener> mListeners;
+  private State mState;
+
+  public BaseModel() {
+    // weak referenced listener set
+    mListeners = Collections.newSetFromMap(new WeakHashMap&lt;Listener, Boolean>());
+    mState = State.EMPTY;
+  }
+
+  public boolean isLoaded() {
+    return mState == State.LOADED;
+  }
+
+  public void load() {
+    if (mState == State.LOADING) {
+      return;
+    }
+
+    mState = State.LOADING;
+    performLoad();
+  }
+
+  // ... add, remove and notify listeners ...
+
+  protected abstract void performLoad();
+
+  private enum State {
+   EMPTY, LOADING, LOADED
+  }
+}
+
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Example: Main Model</h4>
+
+						<pre style="font-size: 0.45em"><code class="java" data-trim contenteditable>
+
+public class BalanceListModel extends BaseModel {
+
+  private String[] mBalanceIds;
+
+  public String[] getBalanceIds() {
+    return mBalanceIds;
+  }
+
+  @Override
+  protected void performLoad() {
+
+    // ... load data from server ...
+
+    // ... on success / failure - update state and notify listeners...
+
+  }
+}
+
+						</code></pre>
+					</section>
+				</section>
+
+				<section data-background="#75a39a">
+					<section>
+						<h2>So what's in it for me?</h2>
+					</section>
+
+					<section>
+						<h4>Win</h4>
+						<h2>Non-blocking workflow freedom</h2>
+					</section>
+
+					<section>
+						<h4>Win</h4>
+						<h2>Changes are easy and surgical</h2>
+					</section>
+
+					<section>
+						<h4>Win</h4>
+						<h2>Smaller classes</h2>
+					</section>
+
+					<section>
+						<h4>Win</h4>
+						<h2>ViewModel layer is easily persistable</h2>
+					</section>
+
+					<section>
+						<h4>Win</h4>
+						<h2>Code Reuse</h2>
+					</section>
+
+					<section>
+						<h4>Win</h4>
+						<h2>Unit Testing</h2>
+					</section>
+				</section>
+
+				<section data-background="#893010">
+					<h2>Is it perfect?</h2>
+					<h4 class="fragment">Almost</h4>
+					<br/>
+					<p class="fragment">
+						Some Overhead
+						<br/>
+						Activity/Fragments Constraints
+					</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>Thanks!</h2>
+						<img src="image/tony.png" width="212px" height="305"/>
+						<br/>
+						<img src="image/turns.png"/>
+						<p><a href="http://getturns.com">getturns.com</a></p>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'js/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'js/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'js/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
