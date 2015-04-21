@@ -2,17 +2,66 @@ body {
     background-color: #f7f7f7;
 }
 
-#title_div {
-	position: relative;
-	top: -120px;
+#poster {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 512px;
+	height: 512px;
 }
 
-.links {
-	position: relative;
-	top: -120px;
+#title {
+	width: 400px;
+	height: 60px;
+	position: absolute;
+	top: 420px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 56px;
+	font-family: "Roboto";
+}
+
+#subtitle {
+	width: 400px;
+	height: 30px;
+	position: absolute;
+	top: 480px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 24px;
+	font-family: "Roboto";
+}
+
+#products {
+	width: 400px;
+	height: 50px;
+	position: absolute;
+	top: 530px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+}
+
+#social {
+	width: 400px;
+	height: 30px;
+	position: absolute;
+	top: 604px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+}
+
+a {
 	margin-left: 8px;
 	margin-right: 8px;
-	text-decoration:none;
+	text-decoration: none;
 }
 
 img.desaturate:not(:hover) {
@@ -29,14 +78,4 @@ img.desaturate:hover {
 	-webkit-transition: all .5s ease-out;
 }
 
-#title {
-	font-size: 56px;
-	font-family: "Roboto";
-}
 
-#subtitle {
-	position: relative;
-	top: -20px;
-	font-size: 24px;
-	font-family: "Roboto";
-}
