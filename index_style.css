@@ -12,29 +12,39 @@ body {
 #title {
     margin: 0 auto;
     text-align: center;
-    font-size: 56px;
+    font-size: 54px;
     font-family: "Roboto";
 }
 
 #subtitle {
-    margin: 0 auto;
+    margin: 0 auto 30px;
     text-align: center;
-    font-size: 24px;
+    font-size: 25px;
     font-family: "Roboto";
 }
 
 #products {
-    margin: 15px auto;
+    margin: 0 auto;
 }
 
 #social {
-    margin: 10px auto;
+    margin: 15px auto;
 }
 
 a {
     margin-left: 8px;
     margin-right: 8px;
     text-decoration: none;
+}
+
+img.bigger {
+    width: 75px;
+    height: 75px;
+}
+
+img.smaller {
+    width: 45px;
+    height: 45px;
 }
 
 img.desaturate:not(:hover) {

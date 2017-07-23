@@ -1,38 +1,48 @@
 body {
-	background-color: #f7f7f7;
+    background-color: #f7f7f7;
 }
 
 #poster {
-	display: block;
-	margin: 0 auto;
-	width: 250px;
-	height: 250px;
+    display: block;
+    margin: 10% auto 0;
+    width: 50%;
+    height: 50%;
 }
 
 #title {
-	margin: 0 auto;
-	text-align: center;
-	font-size: 56px;
-	font-family: "Roboto";
+    margin: 0 auto;
+    text-align: center;
+    font-size: 11vw;
+    font-family: "Roboto";
 }
 
 #subtitle {
-	margin: 0 auto;
-	text-align: center;
-	font-size: 24px;
-	font-family: "Roboto";
+    margin: 0 auto 8%;
+    text-align: center;
+    font-size: 5vw;
+    font-family: "Roboto";
 }
 
 #products {
-	margin: 15px auto;
+    margin: 0 auto;
 }
 
 #social {
-	margin: 10px auto;
+    margin: 5% auto;
+}
+
+img.bigger {
+    width: 14vw;
+    height: 14vw;
+}
+
+img.smaller {
+    width: 9vw;
+    height: 9vw;
 }
 
 a {
-	margin-left: 8px;
-	margin-right: 8px;
-	text-decoration: none;
+    margin-left: 8px;
+    margin-right: 8px;
+    text-decoration: none;
 }
