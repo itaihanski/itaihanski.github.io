@@ -13,4 +13,12 @@
     "package_name": "com.example.flow_app",
     "sha256_cert_fingerprints": ["F4:13:2B:AC:71:95:69:52:4D:AC:80:40:60:82:B3:55:73:39:7B:B0:F3:0C:6B:10:5F:38:85:0B:0C:C0:2C:54"]
   }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { 
+    "namespace": "android_app",
+    "package_name": "com.descopereactnativeexample",
+    "sha256_cert_fingerprints": ["F4:13:2B:AC:71:95:69:52:4D:AC:80:40:60:82:B3:55:73:39:7B:B0:F3:0C:6B:10:5F:38:85:0B:0C:C0:2C:54"]
+  }
 }]
