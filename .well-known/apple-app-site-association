@@ -5,6 +5,10 @@
       {
         "appID": "6DHGP65953.com.descope.itai.flowapp",
         "paths": ["*"]
+      },
+      {
+        "appID": "6DHGP65953.dev.itai.SdkTester",
+        "paths": ["*"]
       }
     ]
   },
