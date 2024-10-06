@@ -9,6 +9,10 @@
       {
         "appID": "6DHGP65953.dev.itai.SdkTester",
         "paths": ["*"]
+      },
+      {
+        "appID": "6DHGP65953.com.descope.dev.reactnative",
+        "paths": ["*"]
       }
     ]
   },
